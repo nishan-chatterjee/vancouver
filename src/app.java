@@ -29,9 +29,6 @@ public class app {
                 String[] d = data.split(",");
                 // System.out.println("the val of ->" + d[0]);
                 if (d[0].compareTo("trip_id") != 0) {
-                    // System.out.println("the current data is\n " + data);
-                    // System.out.println(d[0]);// trip id
-                    // System.out.println(d[1]);// arrival time
 
                     if (Integer.parseInt(d[0]) == 9018011) {
                         int a = 0;
@@ -69,13 +66,6 @@ public class app {
                     }
                     add_to_list = true;
 
-                    // System.out.println(d[2]);// departure time
-                    // System.out.println(d[3]);// stop id
-                    // System.out.println(d[4]);// stop sequence
-                    // System.out.println(d[5]);//
-                    // stop_headsign,pickup_type,drop_off_type,shape_dist_traveled
-                    // System.out.println(d[6]);//
-                    // System.out.println(d[7]);//
                 }
             }
             inputStream.close();
