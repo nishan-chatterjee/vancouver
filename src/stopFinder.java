@@ -8,10 +8,11 @@
 import java.util.ArrayList;
 import java.io.File;
 import java.util.Scanner;
+
 import java.io.FileNotFoundException;
 
 public class stopFinder {
-     /**
+    /**
      * removes data with invalid times from the povidied data
      */
     public static String[] getStopByArival(String time) {
@@ -62,7 +63,7 @@ public class stopFinder {
                     }
 
                     if (add_to_list) {
-                        System.out.println(data);
+                        // System.out.println(data);
                         s.add(data);
                     }
                     add_to_list = true;
@@ -75,14 +76,55 @@ public class stopFinder {
         }
         String[] res = new String[s.size()];
 
-        double[] nums = new double[s.size()];
+        s.toArray(res);
+        return mergeSort(res);
+    }
 
-        for (int i = 0; i < s.size(); i++) {
-            nums[i] = Integer.parseInt(res[i].split(",")[0]);
+    public static String[] mergeSort(String[] array) {
+        if (array.length <= 1) {
+            return array;
         }
 
-        s.toArray(res);
-        // array = (String[]) s.toArray();
-        return res;
+        int mid = array.length / 2;
+        String[] lo = new String[mid];
+        String[] hi = new String[array.length - mid];
+
+        for (int i = 0; i < hi.length; i++) {
+            hi[i] = array[i];
+        }
+        for (int j = 0; j < lo.length; j++) {
+            lo[j] = array[j + hi.length];
+        }
+
+        lo = mergeSort(lo);
+        hi = mergeSort(hi);
+
+        return merge(lo, hi);
+    }
+
+    private static String[] merge(String[] hi, String[] lo) {
+        String[] result = new String[hi.length + lo.length];
+
+        int i = 0;
+        int j = 0;
+        int k = 0;
+
+        while (i < lo.length || j < hi.length) {
+            if (i < lo.length && j < hi.length) {
+                int lo_ptr = Integer.parseInt(lo[i].split(",")[0]);
+                int hi_ptr = Integer.parseInt(hi[j].split(",")[0]);
+                if (lo_ptr < hi_ptr) {
+                    result[k++] = lo[i++];
+                } else {
+                    result[k++] = hi[j++];
+                }
+            } else if (i < lo.length) {
+                result[k++] = lo[i++];
+            } else if (j < hi.length) {
+                result[k++] = hi[j++];
+            }
+        }
+
+        return result;
     }
 }
