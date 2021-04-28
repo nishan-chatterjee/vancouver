@@ -12,9 +12,12 @@ import java.util.Scanner;
 import java.io.FileNotFoundException;
 
 public class stopFinder {
+
     /**
-     * removes data with invalid times from the povidied data
-     */
+     * returns busall data associated with the given arrival time in increasing
+     * order of bus stop id
+     **/
+
     public static String[] getStopByArival(String time) {
         boolean add_to_list = false;
         // create an arraylist to hold the data
@@ -32,18 +35,14 @@ public class stopFinder {
                 // System.out.println("the val of ->" + d[0]);
                 if (d[0].compareTo("trip_id") != 0) {
 
-                    if (Integer.parseInt(d[0]) == 9018011) {
-                        int a = 0;
-                    }
-
                     // split the arrival time
                     String[] arrival_times = d[1].split(":");
 
                     // split the hours into unit and seconds
                     String[] hours = arrival_times[0].split(" ");
-                    if (hours[0] == "") {
-                        if (Integer.parseInt(hours[1]) < 0
-                                || Integer.parseInt(hours[1]) != Integer.parseInt(time.split(":")[0])
+                    if (hours[0] == "" || hours[0] == "0") {
+                        int t = Integer.parseInt(time.split(":")[0].split(" ")[0]);
+                        if (Integer.parseInt(hours[1]) < 0 || Integer.parseInt(hours[1]) != t
                                 || Integer.parseInt(time.split(":")[1]) != Integer.parseInt(arrival_times[1])
                                 || Integer.parseInt(time.split(":")[2]) != Integer.parseInt(arrival_times[2])) {
                             add_to_list = false;
@@ -74,10 +73,17 @@ public class stopFinder {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        String[] res = new String[s.size()];
+        if (s.size() == 0) {
+            System.out.println("no data was found for the inserted arrival time.");
+            String[] a = { "null" };
+            return a;
 
-        s.toArray(res);
-        return mergeSort(res);
+        } else {
+            String[] res = new String[s.size()];
+            s.toArray(res);
+            return mergeSort(res);
+
+        }
     }
 
     public static String[] mergeSort(String[] array) {
