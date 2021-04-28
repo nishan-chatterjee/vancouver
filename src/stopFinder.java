@@ -14,8 +14,8 @@ import java.io.FileNotFoundException;
 public class stopFinder {
 
     /**
-     * returns busall data associated with the given arrival time in increasing
-     * order of bus stop id
+     * returns all bus data associated with a given arrival time in increasing order
+     * of bus stop id
      **/
 
     public static String[] getStopByArival(String time) {
