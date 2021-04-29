@@ -16,6 +16,13 @@
             "name": "Launch app",
             "request": "launch",
             "mainClass": "app",
+            "projectName": "vancouver_e4ae7f2"
+        },
+        {
+            "type": "java",
+            "name": "Launch app",
+            "request": "launch",
+            "mainClass": "app",
             "projectName": "vancouver_456c2817"
         },
         {

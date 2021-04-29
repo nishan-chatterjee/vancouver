@@ -8,12 +8,16 @@
 import java.util.ArrayList;
 import java.io.File;
 import java.util.Scanner;
+
 import java.io.FileNotFoundException;
 
 public class stopFinder {
-     /**
-     * removes data with invalid times from the povidied data
-     */
+
+    /**
+     * returns all bus data associated with a given arrival time in increasing order
+     * of trip_id
+     **/
+
     public static String[] getStopByArival(String time) {
         boolean add_to_list = false;
         // create an arraylist to hold the data
@@ -31,18 +35,14 @@ public class stopFinder {
                 // System.out.println("the val of ->" + d[0]);
                 if (d[0].compareTo("trip_id") != 0) {
 
-                    if (Integer.parseInt(d[0]) == 9018011) {
-                        int a = 0;
-                    }
-
                     // split the arrival time
                     String[] arrival_times = d[1].split(":");
 
                     // split the hours into unit and seconds
                     String[] hours = arrival_times[0].split(" ");
-                    if (hours[0] == "") {
-                        if (Integer.parseInt(hours[1]) < 0
-                                || Integer.parseInt(hours[1]) != Integer.parseInt(time.split(":")[0])
+                    if (hours[0] == "" || hours[0] == "0") {
+                        int t = Integer.parseInt(time.split(":")[0].split(" ")[0]);
+                        if (Integer.parseInt(hours[1]) < 0 || Integer.parseInt(hours[1]) != t
                                 || Integer.parseInt(time.split(":")[1]) != Integer.parseInt(arrival_times[1])
                                 || Integer.parseInt(time.split(":")[2]) != Integer.parseInt(arrival_times[2])) {
                             add_to_list = false;
@@ -62,7 +62,7 @@ public class stopFinder {
                     }
 
                     if (add_to_list) {
-                        System.out.println(data);
+                        // System.out.println(data);
                         s.add(data);
                     }
                     add_to_list = true;
@@ -73,16 +73,64 @@ public class stopFinder {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        String[] res = new String[s.size()];
+        if (s.size() == 0) {
+            System.out.println("no data was found for the inserted arrival time.");
+            String[] a = { "null" };
+            return a;
 
-        double[] nums = new double[s.size()];
+        } else {
+            String[] res = new String[s.size()];
+            s.toArray(res);
+            return mergeSort(res);
 
-        for (int i = 0; i < s.size(); i++) {
-            nums[i] = Integer.parseInt(res[i].split(",")[0]);
+        }
+    }
+
+    public static String[] mergeSort(String[] array) {
+        if (array.length <= 1) {
+            return array;
         }
 
-        s.toArray(res);
-        // array = (String[]) s.toArray();
-        return res;
+        int mid = array.length / 2;
+        String[] lo = new String[mid];
+        String[] hi = new String[array.length - mid];
+
+        for (int i = 0; i < hi.length; i++) {
+            hi[i] = array[i];
+        }
+        for (int j = 0; j < lo.length; j++) {
+            lo[j] = array[j + hi.length];
+        }
+
+        lo = mergeSort(lo);
+        hi = mergeSort(hi);
+
+        return merge(lo, hi);
+    }
+
+    private static String[] merge(String[] hi, String[] lo) {
+        String[] result = new String[hi.length + lo.length];
+
+        int i = 0;
+        int j = 0;
+        int k = 0;
+
+        while (i < lo.length || j < hi.length) {
+            if (i < lo.length && j < hi.length) {
+                int lo_ptr = Integer.parseInt(lo[i].split(",")[0]);
+                int hi_ptr = Integer.parseInt(hi[j].split(",")[0]);
+                if (lo_ptr < hi_ptr) {
+                    result[k++] = lo[i++];
+                } else {
+                    result[k++] = hi[j++];
+                }
+            } else if (i < lo.length) {
+                result[k++] = lo[i++];
+            } else if (j < hi.length) {
+                result[k++] = hi[j++];
+            }
+        }
+
+        return result;
     }
 }
