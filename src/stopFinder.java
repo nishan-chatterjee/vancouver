@@ -18,7 +18,7 @@ public class stopFinder {
      * of trip_id
      **/
 
-    public  String[] getStopByArival(String time) {
+    public static String[] getStopByArival(String time) {
         boolean add_to_list = false;
         // create an arraylist to hold the data
         ArrayList<String> s = new ArrayList<String>();
@@ -39,8 +39,8 @@ public class stopFinder {
                     String[] arrival_times = d[1].split(":");
 
                     // split the hours into unit and seconds
-                    String[] hours = arrival_times[0].split(" ");
-                    if (hours[0] == "" || hours[0] == "0") {
+                    String[] hours = arrival_times[0].split("");
+                    if (hours[0].equals("") || hours[0].equals("0") || hours[0].equals(" ")) {
                         int t = Integer.parseInt(time.split(":")[0].split(" ")[0]);
                         if (Integer.parseInt(hours[1]) < 0 || Integer.parseInt(hours[1]) != t
                                 || Integer.parseInt(time.split(":")[1]) != Integer.parseInt(arrival_times[1])
@@ -84,6 +84,14 @@ public class stopFinder {
             return mergeSort(res);
 
         }
+    }
+
+    public static void main(String[] args) {
+        String[] a = getStopByArival("12:12:10");
+        for (int i = 0; i < a.length; i++) {
+            System.out.println(a[i]);
+        }
+
     }
 
     public static String[] mergeSort(String[] array) {
