@@ -18,7 +18,7 @@ public class stopFinder {
      * of trip_id
      **/
 
-    public static String[] getStopByArival(String time) {
+    public  String[] getStopByArival(String time) {
         boolean add_to_list = false;
         // create an arraylist to hold the data
         ArrayList<String> s = new ArrayList<String>();
