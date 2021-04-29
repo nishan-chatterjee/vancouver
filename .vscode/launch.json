@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Launch ui",
+            "request": "launch",
+            "mainClass": "ui",
+            "projectName": "vancouver_456c2817"
+        },
+        {
+            "type": "java",
             "name": "Launch app",
             "request": "launch",
             "mainClass": "app",
