@@ -1,5 +1,6 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.sql.ResultSet;
 import java.util.Scanner;
 import java.util.HashMap;
 import java.util.Map;
@@ -79,7 +80,7 @@ public class StopNameFinder {
         }
     }
 
-    public static void findBusStops(String busName) {
+    public static String[] findBusStops(String busName) {
         HashMap<String, Bus> buses = Bus.getData("../inputs/stops.txt");
         TST tst = new TST();
         for (Map.Entry<String, Bus> pair : buses.entrySet()) {
@@ -87,15 +88,17 @@ public class StopNameFinder {
         }
 
         String[] stopnames = tst.getMultiple(busName);
-        Bus[] bs = new Bus[stopnames.length];
-        for (int i = 0; i < bs.length; i++)
-            bs[i] = buses.get(stopnames[i]);
 
-        for (final Bus b : bs)
-            System.out.println(b);
+        String[] result = new String[stopnames.length];
+        for (int i = 0; i < result.length; i++)
+            result[i] = buses.get(stopnames[i]).toString();
+        return result;
     }
 
-    public static void main(String... args) {
-        findBusStops("FRASER");
-    }
+    // public static void main(String... args) {
+    //     String[] res = findBusStops("FRASER");
+    //     for(final String str : res)
+    //         System.out.println(str);
+        // findBusStops("FRASER HWY FS 184 ST WB");
+    // }
 }

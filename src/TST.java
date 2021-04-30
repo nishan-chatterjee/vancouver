@@ -75,17 +75,18 @@ public class TST {
             return getMultiple(node.middle, word, index + 1, substring + letter);
         } else {
             ArrayList<String> res = new ArrayList<>();
-            collect(node, substring + letter, res);
+            collect(node, substring, res);
             return res.toArray(new String[res.size()]);
         }
     }
 
     private void collect(Node node, String substring, ArrayList<String> soFar) {
-        if (node.left != null)
-            collect(node.left, substring + node.left.data, soFar);
-        if (node.middle != null)
-            collect(node.middle, substring + node.middle.data, soFar);
-        if (node.right != null)
-            collect(node.right, substring + node.right.data, soFar);
+        if (node != null) {
+            collect(node.left, substring, soFar);
+            if(node.isLast)
+                soFar.add(substring + node.data);
+            collect(node.middle, substring + node.data, soFar);
+            collect(node.right, substring, soFar);
+        }
     }
 }
