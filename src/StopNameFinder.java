@@ -1,6 +1,4 @@
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.sql.ResultSet;
 import java.util.Scanner;
 import java.util.HashMap;
 import java.util.Map;
