@@ -46,27 +46,32 @@ public class tripFinder {
 
     // if the time input contain prohibited values then return true
     private boolean prohibitedInput(String time) {
-        String hours = time.split(":")[0];
-        String mins = time.split(":")[1];
-        String seconds = time.split(":")[2];
+        try {
 
-        if (!(hours.matches("\\d+"))) {
-            return true;
-        }
+            String hours = time.split(":")[0];
+            String mins = time.split(":")[1];
+            String seconds = time.split(":")[2];
 
-        if (!(mins.matches("\\d+"))) {
-            return true;
-        }
+            if (!(hours.matches("\\d+"))) {
+                return true;
+            }
 
-        if (!(seconds.matches("\\d+"))) {
-            return true;
-        }
-        if (mins.toCharArray().length != 2) {
-            return true;
-        }
-        if (seconds.toCharArray().length != 2) {
-            return true;
+            if (!(mins.matches("\\d+"))) {
+                return true;
+            }
 
+            if (!(seconds.matches("\\d+"))) {
+                return true;
+            }
+            if (mins.toCharArray().length != 2) {
+                return true;
+            }
+            if (seconds.toCharArray().length != 2) {
+                return true;
+
+            }
+        } catch (Exception e) {
+            return true;
         }
         return false;
 
