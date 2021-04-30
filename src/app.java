@@ -47,11 +47,11 @@ public class app extends Application {
 
     ArrayList<String> errors;
 
-    static stopFinder sFinder;
+    static tripFinder tFinder;
 
     public static void main(String[] args) throws Exception {
         // init classes
-        sFinder = new stopFinder();
+        tFinder = new tripFinder();
         launch(args);
     }
 
@@ -265,7 +265,7 @@ public class app extends Application {
 
                 String input = timeInput.getText();
                 System.out.println(input);
-                String[] result = sFinder.getStopByArival(input);
+                String[] result = tFinder.getStopByArival(input);
 
                 if (result != null) {
 
