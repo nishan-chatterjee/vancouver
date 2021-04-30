@@ -39,40 +39,36 @@ public class shortestPathsFinder {
          * Creating graph from stop_times
          */
         String fileName = "..//inputs/stop_times.txt";
-        if (fileName != null) {
-            try {
-                File file = new File(fileName);
-                Scanner inputStream = new Scanner(file);
 
-                String data = inputStream.nextLine(); // skip the first line as it contains the column names
+        try {
+            File file = new File(fileName);
+            Scanner inputStream = new Scanner(file);
 
-                data = inputStream.nextLine(); // take the second line
-                String[] values = data.split(",");
-                String currentTripID = values[0]; // store the first trip id
-                String currentStopID = values[3]; // and the stop id
+            String data = inputStream.nextLine(); // skip the first line as it contains the column names
 
-                String nextTripID, nextStopID;
+            data = inputStream.nextLine(); // take the second line
+            String[] values = data.split(",");
+            String currentTripID = values[0]; // store the first trip id
+            String currentStopID = values[3]; // and the stop id
 
-                while (inputStream.hasNextLine()) {
-                    data = inputStream.nextLine();
-                    values = data.split(",");
-                    nextTripID = values[0];
-                    nextStopID = values[3];
+            String nextTripID, nextStopID;
 
-                    // add directed edge
-                    if (currentTripID == nextTripID)
-                        graph.addEdge(Integer.parseInt(currentStopID), Integer.parseInt(nextStopID), 1);
+            while (inputStream.hasNextLine()) {
+                data = inputStream.nextLine();
+                values = data.split(",");
+                nextTripID = values[0];
+                nextStopID = values[3];
 
-                    // make next node as current node
-                    nextTripID = currentTripID;
-                    nextStopID = currentStopID;
-                }
-                inputStream.close();
-            } catch (FileNotFoundException e) {
-                allGood = false;
-                graph = null;
+                // add directed edge
+                if (currentTripID == nextTripID)
+                    graph.addEdge(Integer.parseInt(currentStopID), Integer.parseInt(nextStopID), 1);
+
+                // make next node as current node
+                currentTripID = nextTripID;
+                currentStopID = nextStopID;
             }
-        } else {
+            inputStream.close();
+        } catch (FileNotFoundException e) {
             allGood = false;
             graph = null;
         }
@@ -80,36 +76,32 @@ public class shortestPathsFinder {
         /*
          * Creating graph from transfers
          */
-        String filename = "..//inputs/transfers.txt";
-        if (filename != null) {
-            try {
-                File file = new File(fileName);
-                Scanner inputStream = new Scanner(file);
+        String transfers_file = "..//inputs/transfers.txt";
 
-                String data = inputStream.nextLine(); // skip the first line as it contains the column names
-                String[] values;
-                String currentStopID;
-                String nextStopID;
+        try {
+            File file = new File(transfers_file);
+            Scanner inputStream = new Scanner(file);
 
-                while (inputStream.hasNextLine()) {
-                    data = inputStream.nextLine();
-                    values = data.split(",");
-                    currentStopID = values[0];
-                    nextStopID = values[1];
+            String data = inputStream.nextLine(); // skip the first line as it contains the column names
+            String[] values;
+            String currentStopID;
+            String nextStopID;
 
-                    // add directed edge with transfer time
-                    if (Integer.parseInt(values[2]) == 0)
-                        graph.addEdge(Integer.parseInt(currentStopID), Integer.parseInt(nextStopID), 2);
-                    else if (Integer.parseInt(values[2]) == 2)
-                        graph.addEdge(Integer.parseInt(currentStopID), Integer.parseInt(nextStopID),
-                                Integer.parseInt(values[3]) / 100);
-                }
-                inputStream.close();
-            } catch (FileNotFoundException e) {
-                allGood = false;
-                graph = null;
+            while (inputStream.hasNextLine()) {
+                data = inputStream.nextLine();
+                values = data.split(",");
+                currentStopID = values[0];
+                nextStopID = values[1];
+
+                // add directed edge with transfer time
+                if (Integer.parseInt(values[2]) == 0)
+                    graph.addEdge(Integer.parseInt(currentStopID), Integer.parseInt(nextStopID), 2);
+                else if (Integer.parseInt(values[2]) == 2)
+                    graph.addEdge(Integer.parseInt(currentStopID), Integer.parseInt(nextStopID),
+                            Integer.parseInt(values[3]) / 100);
             }
-        } else {
+            inputStream.close();
+        } catch (FileNotFoundException e) {
             allGood = false;
             graph = null;
         }
