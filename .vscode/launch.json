@@ -4,6 +4,21 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+        // {
+        //     "type": "java",
+        //     "name": "Launch App",
+        //     "request": "launch",
+        //     "mainClass": "App",
+        //     "projectName": "vancouver_e4ae7f2"
+        // },
+        {
+            "type": "java",
+            "name": "Launch stopFinder",
+            "request": "launch",
+            "mainClass": "stopFinder",
+            "projectName": "vancouver_e4ae7f2",
+            "vmArgs": "--module-path D:/Code/JavaFX-sdk/lib --add-modules javafx.controls"
+        },
         {
             "type": "java",
             "name": "Launch ui",
@@ -16,15 +31,16 @@
             "name": "Launch app",
             "request": "launch",
             "mainClass": "app",
-            "projectName": "vancouver_e4ae7f2"
+            "projectName": "vancouver_e4ae7f2",
+            "vmArgs": "--module-path C:\\Users\\New\\Desktop\\javafx-sdk-11.0.2\\lib --add-modules javafx.controls"
         },
-        {
-            "type": "java",
-            "name": "Launch app",
-            "request": "launch",
-            "mainClass": "app",
-            "projectName": "vancouver_456c2817"
-        },
+        // {
+        //     "type": "java",
+        //     "name": "Launch app",
+        //     "request": "launch",
+        //     "mainClass": "app",
+        //     "projectName": "vancouver_456c2817"
+        // },
         {
             "type": "java",
             "name": "Launch Current File",
