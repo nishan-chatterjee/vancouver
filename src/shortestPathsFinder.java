@@ -41,16 +41,18 @@ public class shortestPathsFinder {
 
                 String data = inputStream.nextLine(); // skip the first line as it contains the column names
 
-                data = inputStream.nextLine().split(","); // take the second line
-                String currentTripID = data[0]; // store the first trip id
-                String currentStopID = data[3]; // and the stop id
+                data = inputStream.nextLine(); // take the second line
+                String[] values = data.split(",");
+                String currentTripID = values[0]; // store the first trip id
+                String currentStopID = values[3]; // and the stop id
 
                 String nextTripID, nextStopID;
 
                 while (inputStream.hasNextLine()) {
-                    data = inputStream.nextLine().split(",");
-                    nextTripID = data[0];
-                    nextStopID = data[3];
+                    data = inputStream.nextLine();
+                    values = data.split(",");
+                    nextTripID = values[0];
+                    nextStopID = values[3];
 
                     // add directed edge
                     if (currentTripID == nextTripID)
@@ -81,17 +83,21 @@ public class shortestPathsFinder {
                 Scanner inputStream = new Scanner(file);
 
                 String data = inputStream.nextLine(); // skip the first line as it contains the column names
+                String[] values;
+                String currentStopID;
+                String nextStopID;
 
                 while (inputStream.hasNextLine()) {
-                    data = inputStream.nextLine().split(",");
-                    String currentStopID = data[0];
-                    String nextStopID = data[1];
+                    data = inputStream.nextLine();
+                    values = data.split(",");
+                    currentStopID = values[0];
+                    nextStopID = values[1];
 
                     // add directed edge with transfer time
-                    if (data[2] == 0)
+                    if (values[2] == 0)
                         graph.addEdge(currentStopID, nextStopID, 2);
-                    else if (data[2] == 2)
-                        graph.addEdge(currentStopID, nextStopID, data[3]/100);
+                    else if (values[2] == 2)
+                        graph.addEdge(currentStopID, nextStopID, values[3]/100);
                 }
                 inputStream.close();
             } catch (FileNotFoundException e) {
