@@ -45,8 +45,8 @@ public class StopNameFinder {
         @Override
         public String toString() {
             String result = String.format(
-                    "id: %d, code: %d, name %s, desc: %s, lat: %f, lon: %f, zone_id: %s, location_type: %d", id,
-                    code, name, desc, lat, lon, zone_id, location_type);
+                    "id: %d, code: %d, name %s, desc: %s, lat: %f, lon: %f, zone_id: %s, location_type: %d", id, code,
+                    name, desc, lat, lon, zone_id, location_type);
             return result;
         }
 
@@ -98,10 +98,17 @@ public class StopNameFinder {
         }
 
         String[] stopnames = tst.getMultiple(busName);
-
+        if (stopnames == null)
+            return null;
         String[][] result = new String[stopnames.length][];
         for (int i = 0; i < result.length; i++)
             result[i] = buses.get(stopnames[i]).getValues();
         return result;
+    }
+
+    public static void main(String... args) {
+        var res = findBusStops("FRASER");
+        if (res != null)
+            System.out.println(res.length);
     }
 }
