@@ -47,7 +47,6 @@ public class tripFinder {
     // if the time input contain prohibited values then return true
     private boolean prohibitedInput(String time) {
         try {
-
             String hours = time.split(":")[0];
             String mins = time.split(":")[1];
             String seconds = time.split(":")[2];

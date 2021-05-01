@@ -1,22 +1,39 @@
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Scanner;
+
 public class Graph {
+
 	// The adjacency list of each vertex, stored into one array
-	ArrayList<Integer>[] adjacencyL;
+	HashMap<Integer,ArrayList<Integer>> adjLists;
 	
 	// Same idea with the distances
-	ArrayList<Double>[] distances;
+	HashMap<Integer,ArrayList<Double>> dists;
 	
 	@SuppressWarnings("unchecked")
-	Graph(int numOfVertices){
+	Graph(){
 		
-		// create the arrays
-		adjacencyL = (ArrayList<Integer>[]) new ArrayList[numOfVertices];
-		distances =(ArrayList<Double>[]) new ArrayList[numOfVertices];
-		
-		// create the array lists in the arrays
-		for(int i = 0; i<numOfVertices;i++) {
-			adjacencyL[i] = new ArrayList<Integer>(0);
-			distances[i] = new ArrayList<Double>(0);
+		adjLists = new HashMap<>();
+		dists = new HashMap<>();
+
+		// populate maps
+		try {
+			File file = new File("inputs/stops.txt");
+        	Scanner inputStream = new Scanner(file);
+        	String data = inputStream.nextLine(); // skip the first line as it contains the column names
+			while(inputStream.hasNextLine()){
+				data = inputStream.nextLine(); // take the second line
+				String[] values = data.split(",");
+				int id =  Integer.parseInt(values[0]);
+				adjLists.put(id, new ArrayList<Integer>());
+				dists.put(id, new ArrayList<Double>());
+				
+			}
+			inputStream.close();
+		} catch (FileNotFoundException e) {
+			System.out.println("File was not found in 'shortestPaths.java'");
 		}
 	}
 	/**
@@ -28,10 +45,14 @@ public class Graph {
 	public void addEdge(int vA, int vB, double distance) {
 		
 		// update adjacency list
-		adjacencyL[vA].add(vB);
-		
+		ArrayList<Integer> adj = adjLists.get(vA);
+		adj.add(vB);
+		adjLists.put(vA, adj);
+
 		// record distance
-		distances[vA].add(distance);
+		ArrayList<Double> dist = dists.get(vA);
+		dist.add(distance);
+		dists.put(vA, dist);
 	}
 	 
 	/** This implentation will only work if there are no negative edges
@@ -45,11 +66,14 @@ public class Graph {
 	 */
 	public double getDistance(int vA, int vB) {
 		if(vA == vB) return 0;
+
 		int vIndex = -1;
-		for(int i = 0;i<adjacencyL[vA].size();i++) {
-			if(adjacencyL[vA].get(i)==vB) vIndex =  i;
+		ArrayList<Integer> adjList = adjLists.get(vA);
+		for(int i = 0; i<adjList.size(); i++){
+			if(adjList.get(i)==vB) vIndex =  i;
 		}
-		 if(vIndex>=0) return distances[vA].get(vIndex);
-		 return Double.POSITIVE_INFINITY;
+		if(vIndex>=0) return dists.get(vA).get(vIndex);
+		
+		return Double.POSITIVE_INFINITY;
 	}
 }

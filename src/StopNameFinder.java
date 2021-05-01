@@ -13,11 +13,10 @@ public class StopNameFinder {
         private final double lat;
         private final double lon;
         private final String zone_id;
-        private final String url;
         private final int location_type;
         // private final byte parent_station;
 
-        public Bus(int id, int code, String name, String desc, double lat, double lon, String zone_id, String url,
+        public Bus(int id, int code, String name, String desc, double lat, double lon, String zone_id,
                 int location_type) {
             this.id = id;
             this.code = code;
@@ -26,15 +25,28 @@ public class StopNameFinder {
             this.lat = lat;
             this.lon = lon;
             this.zone_id = zone_id;
-            this.url = url;
             this.location_type = location_type;
+        }
+
+        public String[] getValues() {
+            final String[] values = new String[8];
+            int index = 0;
+            values[index++] = "" + this.id;
+            values[index++] = "" + this.code;
+            values[index++] = this.name;
+            values[index++] = this.desc;
+            values[index++] = "" + this.lat;
+            values[index++] = "" + this.lon;
+            values[index++] = this.zone_id;
+            values[index++] = "" + this.location_type;
+            return values;
         }
 
         @Override
         public String toString() {
             String result = String.format(
-                    "id: %d, code: %d, name %s, desc: %s, lat: %f, lon: %f, zone_id: %s url: %s, location_type: %d", id,
-                    code, name, desc, lat, lon, zone_id, url, location_type);
+                    "id: %d, code: %d, name %s, desc: %s, lat: %f, lon: %f, zone_id: %s, location_type: %d", id,
+                    code, name, desc, lat, lon, zone_id, location_type);
             return result;
         }
 
@@ -57,7 +69,7 @@ public class StopNameFinder {
                     double lat = Double.parseDouble(vals[index++]);
                     double lon = Double.parseDouble(vals[index++]);
                     String zone_id = vals[index++];
-                    String url = vals[index++];
+                    index++; // skip the empty url entry
                     int location_type = Integer.parseInt(vals[index++]);
                     if (name.length() > 2) {
                         String start = name.substring(0, 2);
@@ -66,7 +78,7 @@ public class StopNameFinder {
                             name = end + " " + start;
                         }
                     }
-                    Bus b = new Bus(id, code, name, desc, lat, lon, zone_id, url, location_type);
+                    Bus b = new Bus(id, code, name, desc, lat, lon, zone_id, location_type);
                     buses.put(name, b);
                 }
                 sc.close();
@@ -78,25 +90,19 @@ public class StopNameFinder {
         }
     }
 
-    public static String[] findBusStops(String busName) {
-        HashMap<String, Bus> buses = Bus.getData("../inputs/stops.txt");
+    public static  String[][] findBusStops(String busName) {
+        HashMap<String, Bus> buses = Bus.getData("inputs/stops.txt");
         TST tst = new TST();
         for (Map.Entry<String, Bus> pair : buses.entrySet()) {
             tst.put(pair.getKey());
         }
 
         String[] stopnames = tst.getMultiple(busName);
-
-        String[] result = new String[stopnames.length];
+        if(stopnames == null)
+            return null;
+        String[][] result = new String[stopnames.length][];
         for (int i = 0; i < result.length; i++)
-            result[i] = buses.get(stopnames[i]).toString();
+            result[i] = buses.get(stopnames[i]).getValues();
         return result;
     }
-
-    // public static void main(String... args) {
-    //     String[] res = findBusStops("FRASER");
-    //     for(final String str : res)
-    //         System.out.println(str);
-        // findBusStops("FRASER HWY FS 184 ST WB");
-    // }
 }
