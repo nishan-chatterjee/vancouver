@@ -25,3 +25,28 @@ https://docs.google.com/document/d/1kMWyTZ8r073y9HN-eIl0KnsdMiWoYiV3q1UU7zJrheg
 
 Github repository available here.
 https://github.com/nishan-chatterjee/vancouver
+
+
+Dependencies/set up:
+    download javafx-sdk-11.0.2
+    store the lib files from javafx file inside the referenced library
+    inside launch.json inlude "vmArgs" inside the configuration for "Launch app", for example see below
+            "vmArgs": "--module-path <YOUR PATH TO LIB FOLDER INSIDE JAVAFX FOLDER> --add-modules javafx.controls"
+
+        [example]  
+        {
+            "type": "java",
+            "name": "Launch app",
+            "request": "launch",
+            "mainClass": "app",
+            "projectName": "vancouver_e4ae7f2",
+            "vmArgs": "--module-path C:\\Users\\New\\Desktop\\javafx-sdk-11.0.2\\lib --add-modules javafx.controls"
+        },
+
+
+in the event you complete all of these steps and you recieve a runtime error saying
+" the method <method name> is undefined for the type <method name>" you may need to 
+clean the Java language server workspace which can be done using Ctrl + shift + p (on VScode)
+then clean Java language server workspace. 
+
+    
